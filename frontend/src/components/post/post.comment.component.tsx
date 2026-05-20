@@ -60,23 +60,23 @@ const PostCommentComponent: React.FC<IPostCommentComponentProps> = ({
       <form className="mb-4" onSubmit={handleSubmit(onSubmit)}>
         <textarea
           {...register("comment")}
-          className="w-full border border-gray-400 rounded-lg p-4 focus:ring-custom focus:border-custom"
+          className="w-full bg-slate-900/50 border border-slate-700 rounded-xl p-4 text-slate-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none placeholder:text-slate-500 transition-all shadow-inner"
           rows={3}
-          placeholder="Add your comment..."
+          placeholder="Share your thoughts on this story..."
         ></textarea>
         <button
           type="submit"
-          className={`!rounded-button mt-4 text-gray-300 px-6 py-2 text-sm font-medium ${
+          className={`!rounded-button mt-3 text-white px-6 py-2.5 rounded-lg text-sm font-semibold transition-all shadow-md ${
             isBusy
-              ? "bg-gray-400 cursor-not-allowed"
-              : "bg-blue-700 cursor-pointer"
+              ? "bg-slate-700 text-slate-400 cursor-not-allowed"
+              : "bg-blue-600 hover:bg-blue-500 active:scale-95 cursor-pointer"
           }`}
           disabled={isBusy}
         >
           {isBusy ? "Posting..." : "Post Comment"}
         </button>
       </form>
-      <h3 className="text-xl font-semibold mb-6">
+      <h3 className="text-2xl font-bold mb-8 text-slate-200 tracking-tight border-t border-slate-700/50 pt-8">
         Comments ({commentList?.totalComments})
       </h3>
       <div className="space-y-6">
@@ -84,19 +84,19 @@ const PostCommentComponent: React.FC<IPostCommentComponentProps> = ({
           <div className="flex space-x-4">
             <SSProfile name={comment?.userId.name as string} size="w-10 h-10" />
             <div className="flex-1">
-              <div className=" rounded-lg p-4 border border-gray-400">
+              <div className="bg-slate-800/40 backdrop-blur-sm border border-slate-700/50 rounded-2xl p-5 shadow-sm hover:border-slate-600 transition-colors">
                 <div className="flex items-center justify-between mb-2">
-                  <h4 className="font-medium text-blue-700">
+                  <h4 className="font-semibold text-blue-400 text-lg">
                     {comment.userId.name}
                   </h4>
-                  <span className="text-sm text-gray-500">
+                  <span className="text-sm text-slate-500 font-medium">
                     {timeAgo(comment.createdAt)}
                   </span>
                 </div>
-                <p className="text-gray-500">{comment.comment}</p>
+                <p className="text-slate-300 leading-relaxed mt-2">{comment.comment}</p>
               </div>
-              <div className="flex items-center mt-2 space-x-4 text-sm text-gray-500">
-                <button className="hover:text-custom">
+              <div className="flex items-center mt-3 pl-2 space-x-4 text-sm text-slate-500 font-medium">
+                <button className="hover:text-red-400 transition-colors flex items-center gap-1">
                   <i className="far fa-heart mr-1"></i> {comment.likes.length}
                 </button>
                 {/* <button className="hover:text-custom">

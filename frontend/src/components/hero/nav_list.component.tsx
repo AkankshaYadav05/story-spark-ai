@@ -59,8 +59,9 @@ const NavListComponent: React.FC<INavListComponentProps> = ({
             <button
               type="button"
               className="!rounded-button p-2 text-gray-400 hover:text-gray-500"
+              aria-label="Search"
             >
-              <i className="fas fa-search"></i>
+              <i className="fas fa-search" aria-hidden="true"></i>
             </button>
             <div className="ml-3 relative">
               <div className="relative inline-flex">
@@ -68,8 +69,9 @@ const NavListComponent: React.FC<INavListComponentProps> = ({
                   type="button"
                   className="!rounded-button p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none"
                   onClick={() => setShowNotification(true)}
+                  aria-label="Notifications"
                 >
-                  <i className="fa-solid fa-bell"></i>
+                  <i className="fa-solid fa-bell" aria-hidden="true"></i>
                 </button>
                 <span className="absolute top-0.5 right-0.5 grid min-h-[18px] min-w-[18px] translate-x-2/4 -translate-y-2/4 place-items-center rounded-full bg-red-700 text-xs text-gray-400">
                   {newNotify}

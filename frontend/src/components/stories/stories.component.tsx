@@ -11,13 +11,14 @@ import toast, { Toaster } from "react-hot-toast";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useGetProfileInfoQuery } from "../../redux/apis/user.api";
 import { getErrorMessage } from "../../error/error.message";
+import StorySkeleton from "../signup/story-skeleton";
 
 type Inputs = {
   prompt: string;
 };
 
 const StoriesComponent = () => {
-  const { register, handleSubmit, reset, setValue } = useForm<Inputs>();
+  const { register, handleSubmit, reset, setValue, watch } = useForm<Inputs>();
   const [stories, setStories] = useState<IStories[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const { data } = useGetProfileInfoQuery(undefined);
@@ -26,11 +27,7 @@ const StoriesComponent = () => {
   const [generateModel] = useGenerateModelMutation();
   const [generateFreeModel] = useGenerateFreeModelMutation();
   const [selectedPrompt, setSelectedPrompt] = useState<string>("");
-  const [textareaValue, setTextareaValue] = useState<string>("");
-
-  useEffect(() => {
-    setValue("prompt", textareaValue);
-  }, [textareaValue, setValue]);
+  const promptValue = watch("prompt") || "";
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     if (data.prompt === "") {
@@ -52,7 +49,6 @@ const StoriesComponent = () => {
         toast.success(res.message);
         setStories(res.data as IStories[]);
         setSelectedPrompt("");
-        setTextareaValue("");
         setValue("prompt", "");
         reset();
       }
@@ -66,7 +62,7 @@ const StoriesComponent = () => {
   const handlePromptSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = e.target.value;
     setSelectedPrompt(selectedValue);
-    setTextareaValue(selectedValue);
+    setValue("prompt", selectedValue);
   };
 
   return (
@@ -125,33 +121,41 @@ const StoriesComponent = () => {
             ✨
           </h1>
 
-          <div className="max-w-3xl mx-auto p-4">
+          <div className="max-w-3xl mx-auto px-4 sm:px-0">
             <div className="bg-blue-500/10 rounded-md p-4 border border-gray-400">
-              <div className="relative">
-                <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
-                  <textarea
-                    {...register("prompt")}
-                    className="w-full h-40 resize-none border-none outline-none bg-transparent text-gray-300 focus:ring-0 text-lg leading-relaxed tracking-wide placeholder:italic placeholder:text-gray-500"
-                    placeholder="Every great story begins with a single idea. What’s yours?"
-                    value={textareaValue}
-                    onChange={(e) => setTextareaValue(e.target.value)}
-                  ></textarea>
-                  <div className="absolute bottom-3 right-3 flex items-center space-x-2">
-                    <button
-                      type="submit"
-                      disabled={loading}
-                      className={`rounded-lg bg-gradient-to-r from-blue-400 to-indigo-500 text-gray-200 px-6 py-3 font-semibold ${
-                        loading
-                          ? "opacity-50 cursor-not-allowed"
-                          : "hover:shadow-lg hover:shadow-indigo-500/50"
-                      } transition-all duration-300 transform hover:scale-105 flex items-center space-x-2 group cursor-pointer`}
-                    >
-                      <i className="fas fa-wand-magic-sparkles text-xl transition-transform duration-300 group-hover:animate-wiggle"></i>
-                      {loading ? "Generating..." : "Generate"}
-                    </button>
-                  </div>
-                </form>
-              </div>
+              <form onSubmit={handleSubmit(onSubmit)}>
+                <textarea
+                  {...register("prompt")}
+                  className="w-full h-40 resize-none border-none outline-none bg-transparent text-gray-300 focus:ring-0 text-lg leading-relaxed tracking-wide placeholder:italic placeholder:text-gray-500"
+                  placeholder="Describe your world, characters, conflict, or adventure..."
+                  aria-label="Story prompt input"
+                />
+                <div className="flex items-center justify-between mt-3 pt-3 border-t border-white/10">
+                  <span
+                    className={`text-xs font-medium tabular-nums transition-colors duration-200 ${
+                      getWordCount(promptValue) >= 10
+                        ? "text-green-400"
+                        : promptValue.length > 0 ? "text-amber-400" : "text-gray-500"
+                    }`}
+                  >
+                    {getWordCount(promptValue) < 10 
+                      ? `Enter at least 10 words (${getWordCount(promptValue)}/10)`
+                      : `${getWordCount(promptValue)} words - Ready to Generate!`}
+                  </span>
+                  <button
+                    type="submit"
+                    disabled={loading || getWordCount(promptValue) < 10}
+                    className={`rounded-lg bg-gradient-to-r from-blue-400 to-indigo-500 text-gray-200 px-6 py-2.5 font-semibold transition-all duration-300 flex items-center gap-2 group ${
+                      loading || getWordCount(promptValue) < 10
+                        ? "opacity-50 cursor-not-allowed grayscale-[0.5]"
+                        : "hover:shadow-lg hover:shadow-indigo-500/50 transform hover:scale-105 cursor-pointer"
+                    }`}
+                  >
+                    <i className="fas fa-wand-magic-sparkles transition-transform duration-300 group-hover:animate-wiggle"></i>
+                    {loading ? "Generating..." : "Generate"}
+                  </button>
+                </div>
+              </form>
             </div>
             <div className="w-full max-w-2xl m-auto mt-4">
               <h1 className="text-sm text-gray-500 mb-1">
@@ -161,6 +165,7 @@ const StoriesComponent = () => {
                 <select
                   className="w-full p-2 bg-slate-800 text-gray-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/50 appearance-none text-sm"
                   value={selectedPrompt}
+                  aria-label="Select an example prompt"
                   onChange={handlePromptSelect}
                 >
                   <option value="" disabled>
@@ -184,11 +189,18 @@ const StoriesComponent = () => {
           </div>
         </div>
       </div>
-      <StoriesViewComponent
-        stories={stories}
-        isLogin={login}
-        setStories={setStories}
-      />
+      
+      {loading ? (
+        <div className="mt-12 mb-16 px-4 sm:px-6 lg:px-8 transition-opacity duration-500 ease-in-out opacity-100">
+          <StorySkeleton />
+        </div>
+      ) : (
+        <StoriesViewComponent
+          stories={stories}
+          isLogin={login}
+          setStories={setStories}
+        />
+      )}
       <div className="absolute top-[-200px] left-[250px] w-[800px] h-[350px] bg-blue-500/20 rounded-full blur-3xl -z-10"></div>
       <Toaster position="top-right" reverseOrder={false} />
     </div>

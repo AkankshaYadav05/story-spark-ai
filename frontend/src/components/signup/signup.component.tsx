@@ -101,17 +101,22 @@ const SignUpComponent = () => {
   };
 
   return (
-    <div className="bg-slate-700 text-white min-h-screen">
-      <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-10 lg:px-8">
-        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-          <h2 className="text-center text-5xl text-indigo-700 font-bold">
+    <div className="min-h-screen bg-slate-900 text-slate-100 flex items-center justify-center relative overflow-hidden">
+      {/* Ambient background glows for a modern AI feel */}
+      <div className="absolute top-[-10%] left-[-10%] w-96 h-96 bg-blue-600/20 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-[-10%] right-[-10%] w-96 h-96 bg-indigo-600/20 rounded-full blur-[120px] pointer-events-none" />
+      
+      <div className="flex w-full max-w-md flex-col justify-center px-6 py-12 lg:px-8 relative z-10">
+        <div className="sm:mx-auto sm:w-full sm:max-w-md">
+          <h2 className="text-center text-4xl sm:text-5xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-indigo-400 drop-shadow-sm">
             STORY SPARK AI
           </h2>
-          <h2 className="mt-4 text-center text-2xl/9 font-bold tracking-tight text-gray-400">
-            Sign up to your account
-          </h2>
         </div>
-        <div className="mt-5 sm:mx-auto sm:w-full sm:max-w-sm">
+        
+        <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md bg-slate-800/60 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-8 shadow-2xl">
+          <h3 className="mb-6 text-center text-2xl font-bold tracking-tight text-slate-200">
+            Create your account
+          </h3>
           {!showOtpField ? (
             <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
               <SSInput
@@ -170,11 +175,11 @@ const SignUpComponent = () => {
             </div>
           )}
           {!showOtpField && (
-            <p className="mt-4 text-center text-sm/6 text-gray-500">
+            <p className="mt-6 text-center text-sm text-slate-400">
               Already have an account?{" "}
               <a
                 href="/login"
-                className="font-semibold text-indigo-600 hover:text-indigo-500"
+                className="font-semibold text-blue-400 hover:text-blue-300 transition-colors duration-200"
               >
                 Sign in
               </a>
