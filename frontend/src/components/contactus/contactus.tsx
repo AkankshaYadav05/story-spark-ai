@@ -112,7 +112,7 @@ export default function Contact() {
   return (
     <section
       id="contact"
-      className="min-h-screen  text-white px-4 sm:px-6 md:px-10 lg:px-20 py-16 sm:py-20 relative overflow-hidden flex items-center justify-center"
+      className="min-h-screen px-4 py-16 relative flex items-center justify-center overflow-hidden bg-white text-slate-900 transition-colors duration-300 dark:bg-slate-950 dark:text-white sm:px-6 sm:py-20 md:px-10 lg:px-20"
     >
       {/* Background Glow */}
       <div className="absolute top-20 left-10 w-72 h-72 bg-blue-500/10 blur-[120px] rounded-full" />
@@ -123,12 +123,12 @@ export default function Contact() {
       <div className="w-full max-w-5xl relative z-10">
         {/* Heading */}
         <div className="text-center mb-5 sm:mb-14">
-          <p className="text-blue-400 uppercase tracking-[5px] sm:tracking-[7px] text-xs sm:text-sm mb-3 font-semibold">
+          <p className="text-blue-500 uppercase tracking-[5px] sm:tracking-[7px] text-xs sm:text-sm mb-3 font-semibold dark:text-blue-400">
             GET IN TOUCH
           </p>
 
-          <h2 className="text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight">
-            Contact <span className="text-blue-400">Me</span>
+          <h2 className="text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-slate-900 dark:text-white">
+            Contact <span className="text-blue-500 dark:text-blue-400">Me</span>
           </h2>
 
           <div className="w-24 h-1 bg-yellow-400 mx-auto mt-5 rounded-full" />
@@ -143,9 +143,9 @@ export default function Contact() {
             className="
             w-full
             max-w-4xl
-            bg-white/[0.05]
+            bg-gray-100/80
             border
-            border-white/10
+            border-gray-200
             rounded-[2rem]
             p-5
             sm:p-8
@@ -153,6 +153,10 @@ export default function Contact() {
             backdrop-blur-2xl
             space-y-6
             shadow-2xl
+            transition-colors
+            duration-300
+            dark:bg-white/10
+            dark:border-white/10
           "
           >
             {/* Name */}
@@ -164,14 +168,16 @@ export default function Contact() {
               onChange={changeHandler}
               className="
               w-full
-              bg-white/[0.04]
+              bg-gray-100/80
               border
-              border-white/10
+              border-gray-200
               rounded-2xl
               px-5
               py-4
               text-sm
               sm:text-base
+              text-slate-900
+              placeholder:text-slate-400
               outline-none
               transition-[border-color,box-shadow]
               duration-300
@@ -192,14 +198,16 @@ export default function Contact() {
               onChange={changeHandler}
               className="
               w-full
-              bg-white/[0.04]
+              bg-gray-100/80
               border
-              border-white/10
+              border-gray-200
               rounded-2xl
               px-5
               py-4
               text-sm
               sm:text-base
+              text-slate-900
+              placeholder:text-slate-400
               outline-none
               transition-[border-color,box-shadow]
               duration-300
@@ -220,14 +228,16 @@ export default function Contact() {
               onChange={changeHandler}
               className="
               w-full
-              bg-white/[0.04]
+              bg-gray-100/80
               border
-              border-white/10
+              border-gray-200
               rounded-2xl
               px-5
               py-4
               text-sm
               sm:text-base
+              text-slate-900
+              placeholder:text-slate-400
               outline-none
               transition-[border-color,box-shadow]
               duration-300
@@ -248,14 +258,16 @@ export default function Contact() {
               onChange={changeHandler}
               className="
               w-full
-              bg-white/[0.04]
+              bg-gray-100/80
               border
-              border-white/10
+              border-gray-200
               rounded-2xl
               px-5
               py-4
               text-sm
               sm:text-base
+              text-slate-900
+              placeholder:text-slate-400
               outline-none
               resize-none
               transition-[border-color,box-shadow]
@@ -294,7 +306,7 @@ disabled:cursor-not-allowed
             >
               <span className="relative z-10 flex items-center justify-center gap-2">
                 {loading ? (
-                  <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin dark:border-slate-400/30 dark:border-t-slate-900" />
                 ) : (
                   <>
                     Send Message
