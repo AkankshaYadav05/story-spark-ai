@@ -6,6 +6,7 @@ import WritingAssistantComponent from "./components/writing-assistant/writing_as
 import CollabHome from "./components/collab/CollabHome";
 import CollabRoom from "./components/collab/CollabRoom";
 import StoriesComponent from "./components/stories/stories.component";
+import ScrollToTopButton from "./components/ScrollToTopButton";
 
 import {
   createBrowserRouter,
@@ -74,7 +75,7 @@ const router = createBrowserRouter([
     path: "/",
     element: (
       <>
-        <ScrollToTop />
+        <ScrollToTopButton />
         <RootLayout>
           <Outlet />
         </RootLayout>
